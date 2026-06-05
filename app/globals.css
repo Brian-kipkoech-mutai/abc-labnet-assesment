@@ -187,3 +187,32 @@
         @apply font-sans;
     }
 }
+
+@media print {
+    /* Hide chrome — only the report content prints */
+    header,
+    aside,
+    nav,
+    [data-sidebar],
+    [data-slot="sidebar"],
+    .print\:hidden {
+        display: none !important;
+    }
+
+    /* Remove the sidebar offset so the page fills full width */
+    main {
+        margin-left: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    /* Keep colours readable in print */
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    /* Avoid page breaks mid-row */
+    tr {
+        break-inside: avoid;
+    }
+}
