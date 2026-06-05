@@ -188,6 +188,14 @@
     }
 }
 
+/* Animated dashed SVG connector used on the roadmap page */
+@keyframes flow-dash {
+    to { stroke-dashoffset: -1000; }
+}
+.flow-line {
+    animation: flow-dash 30s linear infinite;
+}
+
 @media print {
     /* Hide chrome — only the report content prints */
     header,
