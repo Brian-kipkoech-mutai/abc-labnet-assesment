@@ -9,10 +9,15 @@ create table if not exists public.inventory_items (
   category       text not null,
   stock_quantity integer not null default 0,
   unit           text not null default 'Units',
+  image_url      text,
   created_at     timestamptz not null default now(),
   updated_at     timestamptz not null default now(),
   constraint inventory_items_sku_key unique (sku)
 );
+
+-- Add image_url if table already existed without it
+alter table public.inventory_items
+  add column if not exists image_url text;
 
 create table if not exists public.transactions (
   id          uuid primary key default gen_random_uuid(),
@@ -29,13 +34,42 @@ create table if not exists public.transactions (
 alter table public.inventory_items enable row level security;
 alter table public.transactions    enable row level security;
 
-create policy "auth_read_inventory"   on public.inventory_items for select    to authenticated using (true);
-create policy "auth_insert_inventory" on public.inventory_items for insert    to authenticated with check (true);
-create policy "auth_update_inventory" on public.inventory_items for update    to authenticated using (true);
-create policy "auth_delete_inventory" on public.inventory_items for delete    to authenticated using (true);
+do $$ begin
+  create policy "auth_read_inventory"   on public.inventory_items for select    to authenticated using (true);
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create policy "auth_insert_inventory" on public.inventory_items for insert    to authenticated with check (true);
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create policy "auth_update_inventory" on public.inventory_items for update    to authenticated using (true);
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create policy "auth_delete_inventory" on public.inventory_items for delete    to authenticated using (true);
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create policy "auth_read_transactions"   on public.transactions for select to authenticated using (true);
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create policy "auth_insert_transactions" on public.transactions for insert to authenticated with check (true);
+exception when duplicate_object then null; end $$;
 
-create policy "auth_read_transactions"   on public.transactions for select to authenticated using (true);
-create policy "auth_insert_transactions" on public.transactions for insert to authenticated with check (true);
+-- ============================================================
+-- Storage policies for product-images bucket
+-- ============================================================
+do $$ begin
+  create policy "public_read_product_images" on storage.objects
+    for select using (bucket_id = 'product-images');
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create policy "auth_upload_product_images" on storage.objects
+    for insert to authenticated
+    with check (bucket_id = 'product-images');
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create policy "auth_delete_product_images" on storage.objects
+    for delete to authenticated
+    using (bucket_id = 'product-images');
+exception when duplicate_object then null; end $$;
 
 -- ============================================================
 -- Seed data
@@ -77,4 +111,5 @@ insert into public.transactions (item_name, store_id, amount, status, created_at
   ('Greek Yogurt 500g',   'Store #205',  78.00, 'COMPLETED', now() - interval '4 days'),
   ('Baguette',            'Store #101',  55.00, 'COMPLETED', now() - interval '4 days'),
   ('Whole Milk 1L',       'Store #302', 145.00, 'COMPLETED', now() - interval '5 days'),
-  ('Cheddar Cheese 200g', 'Store #401', 290.00, 'COMPLETED', now() - interval '5 days');
+  ('Cheddar Cheese 200g', 'Store #401', 290.00, 'COMPLETED', now() - interval '5 days')
+on conflict do nothing;

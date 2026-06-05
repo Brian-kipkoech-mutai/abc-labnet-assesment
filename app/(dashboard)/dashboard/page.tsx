@@ -235,9 +235,17 @@ export default async function DashboardPage({
               <div className="space-y-5">
                 {transactions.map((tx) => (
                   <div key={tx.id} className="flex items-center gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-outline-variant bg-surface-container">
-                      <Leaf className="h-5 w-5 text-primary" />
-                    </div>
+                    {tx.item_image ? (
+                      <img
+                        src={tx.item_image}
+                        alt={tx.item_name}
+                        className="h-10 w-10 shrink-0 rounded-full border border-outline-variant object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-outline-variant bg-surface-container">
+                        <Leaf className="h-5 w-5 text-primary" />
+                      </div>
+                    )}
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold text-deep-forest">
                         {tx.item_name}
@@ -324,9 +332,17 @@ export default async function DashboardPage({
                     >
                       <td className="px-8 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-outline-variant bg-surface-container-high">
-                            <Leaf className="h-5 w-5 text-primary" />
-                          </div>
+                          {item.image_url ? (
+                            <img
+                              src={item.image_url}
+                              alt={item.name}
+                              className="h-10 w-10 rounded-full border border-outline-variant object-cover"
+                            />
+                          ) : (
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-outline-variant bg-surface-container-high">
+                              <Leaf className="h-5 w-5 text-primary" />
+                            </div>
+                          )}
                           <span className="text-sm font-semibold text-deep-forest">
                             {item.name}
                           </span>

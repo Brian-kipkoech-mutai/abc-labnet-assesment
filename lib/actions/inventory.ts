@@ -19,10 +19,12 @@ export async function addInventoryItem(formData: FormData) {
     return { error: "Stock quantity must be a non-negative number." }
   }
 
+  const image_url = (formData.get("image_url") as string) || null
+
   const supabase = await createClient()
   const { error } = await supabase
     .from("inventory_items")
-    .insert({ name, sku, category, stock_quantity, unit })
+    .insert({ name, sku, category, stock_quantity, unit, image_url })
 
   if (error) {
     if (error.code === "23505") return { error: "An item with this SKU already exists." }

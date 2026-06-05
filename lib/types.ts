@@ -5,6 +5,7 @@ export interface InventoryItem {
   category: string
   stock_quantity: number
   unit: string
+  image_url: string | null
   created_at: string
   updated_at: string
 }
