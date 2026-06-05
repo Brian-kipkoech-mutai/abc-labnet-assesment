@@ -75,13 +75,32 @@ export async function getDashboardStats(): Promise<DashboardStats> {
 
 export async function getRecentTransactions(limit = 5): Promise<Transaction[]> {
   const supabase = await createClient()
-  const { data } = await supabase
+  const { data: txs } = await supabase
     .from("transactions")
     .select("*")
     .order("created_at", { ascending: false })
     .limit(limit)
 
-  return (data ?? []) as Transaction[]
+  if (!txs?.length) return []
+
+  // Batch-fetch images from inventory_items for any transaction missing one
+  const missingNames = txs.filter((t) => !t.item_image).map((t) => t.item_name as string)
+
+  let imageMap: Record<string, string> = {}
+  if (missingNames.length) {
+    const { data: items } = await supabase
+      .from("inventory_items")
+      .select("name, image_url")
+      .in("name", missingNames)
+    imageMap = Object.fromEntries(
+      (items ?? []).filter((i) => i.image_url).map((i) => [i.name, i.image_url])
+    )
+  }
+
+  return txs.map((t) => ({
+    ...t,
+    item_image: t.item_image ?? imageMap[t.item_name] ?? null,
+  })) as Transaction[]
 }
 
 export async function getSalesTrends(): Promise<SalesTrendPoint[]> {
