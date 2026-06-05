@@ -20,6 +20,14 @@ import {
 } from "@/lib/queries/dashboard"
 import { getInventoryStatus } from "@/lib/types"
 import { AddItemDialog } from "@/components/dashboard/add-item-dialog"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 // Static lookup so Tailwind can scan all class names at build time.
 const BAR_HEIGHT: Record<number, string> = {
@@ -97,163 +105,175 @@ export default async function DashboardPage({
 
       {/* Metric cards */}
       <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl border border-outline-variant bg-card p-6 shadow-sm">
-          <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-surface-container p-2">
+        <Card>
+          <CardHeader>
+            <div className="rounded-lg bg-surface-container p-2 w-fit">
               <CreditCard className="h-5 w-5 text-primary" />
             </div>
-            <div className="flex items-center gap-1 text-primary">
-              <TrendingUp className="h-4 w-4" />
-              <span className="text-xs font-medium">Today</span>
-            </div>
-          </div>
-          <p className="mb-1 text-xs font-medium uppercase tracking-wider text-on-surface-variant">
-            Total Sales Today
-          </p>
-          <h3 className="text-2xl font-semibold text-deep-forest">
-            {formatCurrency(stats.totalSalesToday)}
-          </h3>
-        </div>
+            <CardAction>
+              <div className="flex items-center gap-1 text-primary">
+                <TrendingUp className="h-4 w-4" />
+                <span className="text-xs font-medium">Today</span>
+              </div>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-1 text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+              Total Sales Today
+            </p>
+            <p className="text-2xl font-semibold text-deep-forest">
+              {formatCurrency(stats.totalSalesToday)}
+            </p>
+          </CardContent>
+        </Card>
 
-        <div className="rounded-xl border border-outline-variant bg-card p-6 shadow-sm">
-          <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-beet-red/10 p-2">
+        <Card>
+          <CardHeader>
+            <div className="rounded-lg bg-beet-red/10 p-2 w-fit">
               <AlertTriangle className="h-5 w-5 text-beet-red" />
             </div>
-            <span className="rounded-full bg-beet-red/10 px-3 py-1 text-xs font-medium text-beet-red">
-              Critical
-            </span>
-          </div>
-          <p className="mb-1 text-xs font-medium uppercase tracking-wider text-on-surface-variant">
-            Stock Alerts
-          </p>
-          <h3 className="text-2xl font-semibold text-deep-forest">
-            {stats.stockAlerts} Items
-          </h3>
-        </div>
+            <CardAction>
+              <span className="rounded-full bg-beet-red/10 px-3 py-1 text-xs font-medium text-beet-red">
+                Critical
+              </span>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-1 text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+              Stock Alerts
+            </p>
+            <p className="text-2xl font-semibold text-deep-forest">
+              {stats.stockAlerts} Items
+            </p>
+          </CardContent>
+        </Card>
 
-        <div className="rounded-xl border border-outline-variant bg-card p-6 shadow-sm">
-          <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-secondary-container/30 p-2">
+        <Card>
+          <CardHeader>
+            <div className="rounded-lg bg-secondary-container/30 p-2 w-fit">
               <ShoppingCart className="h-5 w-5 text-secondary" />
             </div>
-            <span className="rounded-full bg-harvest-orange/10 px-3 py-1 text-xs font-medium text-harvest-orange">
-              Processing
-            </span>
-          </div>
-          <p className="mb-1 text-xs font-medium uppercase tracking-wider text-on-surface-variant">
-            Active Orders
-          </p>
-          <h3 className="text-2xl font-semibold text-deep-forest">
-            {stats.activeOrders}
-          </h3>
-        </div>
+            <CardAction>
+              <span className="rounded-full bg-harvest-orange/10 px-3 py-1 text-xs font-medium text-harvest-orange">
+                Processing
+              </span>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-1 text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+              Active Orders
+            </p>
+            <p className="text-2xl font-semibold text-deep-forest">
+              {stats.activeOrders}
+            </p>
+          </CardContent>
+        </Card>
 
-        <div className="rounded-xl border border-outline-variant bg-card p-6 shadow-sm">
-          <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-surface-container-high p-2">
+        <Card>
+          <CardHeader>
+            <div className="rounded-lg bg-surface-container-high p-2 w-fit">
               <Sparkles className="h-5 w-5 text-primary" />
             </div>
-            <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-              This Week
-            </span>
-          </div>
-          <p className="mb-1 text-xs font-medium uppercase tracking-wider text-on-surface-variant">
-            New Arrivals
-          </p>
-          <h3 className="text-2xl font-semibold text-deep-forest">
-            {stats.newArrivals} SKUs
-          </h3>
-        </div>
+            <CardAction>
+              <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                This Week
+              </span>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-1 text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+              New Arrivals
+            </p>
+            <p className="text-2xl font-semibold text-deep-forest">
+              {stats.newArrivals} SKUs
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Sales trends + recent transactions */}
       <div className="mb-8 grid grid-cols-1 gap-6 xl:grid-cols-3">
         {/* Chart */}
-        <div className="rounded-xl border border-outline-variant bg-card p-8 shadow-sm xl:col-span-2">
-          <div className="mb-8 flex items-center justify-between">
-            <div>
-              <h3 className="text-lg font-semibold text-deep-forest">Sales Trends</h3>
-              <p className="text-sm text-on-surface-variant">
-                Revenue analytics for the current week
-              </p>
-            </div>
-          </div>
-
-          <div className="relative flex h-64 w-full items-end gap-2 px-2">
-            <div className="pointer-events-none absolute inset-0 border-b border-l border-outline-variant/30" />
-            {salesTrends.map((bar) => (
-              <div
-                key={bar.day}
-                className={`group relative flex-1 cursor-pointer rounded-t-sm bg-primary/20 transition-colors hover:bg-primary/50 ${barHeightClass(bar.heightPercent)}`}
-                title={`${bar.day}: ${formatCurrency(bar.total)}`}
-              />
-            ))}
-          </div>
-          <div className="mt-4 flex justify-between px-2 text-xs font-medium text-on-surface-variant">
-            {salesTrends.map(({ day }) => (
-              <span key={day}>{day}</span>
-            ))}
-          </div>
-        </div>
-
-        {/* Recent transactions */}
-        <div className="rounded-xl border border-outline-variant bg-card p-8 shadow-sm">
-          <div className="mb-6 flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-deep-forest">
-              Recent Transactions
-            </h3>
-            <button type="button" className="text-xs font-medium text-primary hover:underline">
-              View All
-            </button>
-          </div>
-
-          {transactions.length === 0 ? (
-            <p className="text-sm text-on-surface-variant">No transactions yet.</p>
-          ) : (
-            <div className="space-y-5">
-              {transactions.map((tx) => (
-                <div key={tx.id} className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-outline-variant bg-surface-container">
-                    <Leaf className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-deep-forest">
-                      {tx.item_name}
-                    </p>
-                    <p className="text-xs text-on-surface-variant">
-                      {tx.store_id} · {timeAgo(tx.created_at)}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-semibold text-deep-forest">
-                      +{formatCurrency(Number(tx.amount))}
-                    </p>
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${STATUS_BADGE[tx.status]}`}
-                    >
-                      {tx.status}
-                    </span>
-                  </div>
-                </div>
+        <Card className="xl:col-span-2">
+          <CardHeader>
+            <CardTitle className="text-deep-forest">Sales Trends</CardTitle>
+            <CardDescription>Revenue analytics for the current week</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="relative flex h-64 w-full items-end gap-2 px-2">
+              <div className="pointer-events-none absolute inset-0 border-b border-l border-outline-variant/30" />
+              {salesTrends.map((bar) => (
+                <div
+                  key={bar.day}
+                  className={`group relative flex-1 cursor-pointer rounded-t-sm bg-primary/20 transition-colors hover:bg-primary/50 ${barHeightClass(bar.heightPercent)}`}
+                  title={`${bar.day}: ${formatCurrency(bar.total)}`}
+                />
               ))}
             </div>
-          )}
-        </div>
+            <div className="mt-4 flex justify-between px-2 text-xs font-medium text-on-surface-variant">
+              {salesTrends.map(({ day }) => (
+                <span key={day}>{day}</span>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Recent transactions */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-deep-forest">Recent Transactions</CardTitle>
+            <CardAction>
+              <button type="button" className="text-xs font-medium text-primary hover:underline">
+                View All
+              </button>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            {transactions.length === 0 ? (
+              <p className="text-sm text-on-surface-variant">No transactions yet.</p>
+            ) : (
+              <div className="space-y-5">
+                {transactions.map((tx) => (
+                  <div key={tx.id} className="flex items-center gap-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-outline-variant bg-surface-container">
+                      <Leaf className="h-5 w-5 text-primary" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold text-deep-forest">
+                        {tx.item_name}
+                      </p>
+                      <p className="text-xs text-on-surface-variant">
+                        {tx.store_id} · {timeAgo(tx.created_at)}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-semibold text-deep-forest">
+                        +{formatCurrency(Number(tx.amount))}
+                      </p>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${STATUS_BADGE[tx.status]}`}
+                      >
+                        {tx.status}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
 
       {/* Inventory table */}
-      <div className="overflow-hidden rounded-xl border border-outline-variant bg-card shadow-sm">
-        <div className="flex flex-col items-start justify-between gap-4 border-b border-outline-variant bg-surface-gray/50 px-8 py-6 sm:flex-row sm:items-center">
+      <Card className="overflow-hidden">
+        <CardHeader className="border-b border-outline-variant bg-surface-gray/50">
           <div>
-            <h3 className="text-lg font-semibold text-deep-forest">
-              Detailed Inventory Status
-            </h3>
-            <p className="text-sm text-on-surface-variant">
+            <CardTitle className="text-deep-forest">Detailed Inventory Status</CardTitle>
+            <CardDescription>
               {total} items · page {page} of {totalPages || 1}
-            </p>
+            </CardDescription>
           </div>
-          <div className="flex gap-3">
+          <CardAction className="flex gap-3">
             <a
               href="/api/inventory/export"
               className="flex items-center gap-2 rounded-lg border border-primary px-4 py-2 text-xs font-medium text-primary transition-colors hover:bg-primary/5"
@@ -262,9 +282,10 @@ export default async function DashboardPage({
               Export CSV
             </a>
             <AddItemDialog />
-          </div>
-        </div>
+          </CardAction>
+        </CardHeader>
 
+        <CardContent className="p-0">
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left">
             <thead>
@@ -343,6 +364,7 @@ export default async function DashboardPage({
             </tbody>
           </table>
         </div>
+        </CardContent>
 
         {/* Pagination */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-outline-variant bg-surface-gray px-8 py-4 sm:flex-row">
@@ -406,7 +428,7 @@ export default async function DashboardPage({
             </div>
           )}
         </div>
-      </div>
+      </Card>
     </div>
   )
 }
