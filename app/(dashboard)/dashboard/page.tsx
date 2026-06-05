@@ -20,6 +20,7 @@ import {
 import { getInventoryStatus } from "@/lib/types"
 import { AddItemDialog } from "@/components/dashboard/add-item-dialog"
 import { InventoryRowActions } from "@/components/dashboard/inventory-row-actions"
+import { SalesChart } from "@/components/dashboard/sales-chart"
 import {
   Card,
   CardAction,
@@ -29,18 +30,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-// Static lookup so Tailwind can scan all class names at build time.
-const BAR_HEIGHT: Record<number, string> = {
-  5: "h-[5%]",   10: "h-[10%]", 15: "h-[15%]", 20: "h-[20%]",
-  25: "h-[25%]", 30: "h-[30%]", 35: "h-[35%]", 40: "h-[40%]",
-  45: "h-[45%]", 50: "h-[50%]", 55: "h-[55%]", 60: "h-[60%]",
-  65: "h-[65%]", 70: "h-[70%]", 75: "h-[75%]", 80: "h-[80%]",
-  85: "h-[85%]", 90: "h-[90%]",
-}
-function barHeightClass(percent: number): string {
-  const snapped = Math.max(5, Math.min(90, Math.round(percent / 5) * 5))
-  return BAR_HEIGHT[snapped] ?? "h-[5%]"
-}
 
 const STATUS_BADGE: Record<string, string> = {
   COMPLETED: "bg-primary/10 text-primary",
@@ -200,21 +189,7 @@ export default async function DashboardPage({
             <CardDescription>Revenue analytics for the current week</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="relative flex h-64 w-full items-end gap-2 px-2">
-              <div className="pointer-events-none absolute inset-0 border-b border-l border-outline-variant/30" />
-              {salesTrends.map((bar) => (
-                <div
-                  key={bar.day}
-                  className={`group relative flex-1 cursor-pointer rounded-t-sm bg-primary/20 transition-colors hover:bg-primary/50 ${barHeightClass(bar.heightPercent)}`}
-                  title={`${bar.day}: ${formatCurrency(bar.total)}`}
-                />
-              ))}
-            </div>
-            <div className="mt-4 flex justify-between px-2 text-xs font-medium text-on-surface-variant">
-              {salesTrends.map(({ day }) => (
-                <span key={day}>{day}</span>
-              ))}
-            </div>
+            <SalesChart data={salesTrends} />
           </CardContent>
         </Card>
 
