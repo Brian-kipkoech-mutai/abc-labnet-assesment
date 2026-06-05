@@ -6,7 +6,6 @@ import {
   ShoppingCart,
   Sparkles,
   Download,
-  MoreVertical,
   ChevronLeft,
   ChevronRight,
   Leaf,
@@ -20,6 +19,7 @@ import {
 } from "@/lib/queries/dashboard"
 import { getInventoryStatus } from "@/lib/types"
 import { AddItemDialog } from "@/components/dashboard/add-item-dialog"
+import { InventoryRowActions } from "@/components/dashboard/inventory-row-actions"
 import {
   Card,
   CardAction,
@@ -365,13 +365,7 @@ export default async function DashboardPage({
                         </span>
                       </td>
                       <td className="px-8 py-4 text-right">
-                        <button
-                          type="button"
-                          aria-label={`More options for ${item.name}`}
-                          className="text-on-surface-variant transition-colors hover:text-primary"
-                        >
-                          <MoreVertical className="h-5 w-5" />
-                        </button>
+                        <InventoryRowActions item={item} />
                       </td>
                     </tr>
                   )
