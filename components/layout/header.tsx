@@ -28,9 +28,7 @@ export function AppHeader({ userEmail }: AppHeaderProps) {
     router.push("/login")
   }
 
-  const initials = userEmail
-    ? userEmail.slice(0, 2).toUpperCase()
-    : "AL"
+  const initials = userEmail ? userEmail.slice(0, 2).toUpperCase() : "AL"
 
   return (
     <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-border bg-card px-4 shadow-sm md:px-8">
@@ -41,7 +39,7 @@ export function AppHeader({ userEmail }: AppHeaderProps) {
 
       <div className="flex items-center gap-3">
         <div className="relative hidden sm:block">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="text"
             placeholder="Search inventory..."
@@ -49,11 +47,19 @@ export function AppHeader({ userEmail }: AppHeaderProps) {
           />
         </div>
 
-        <button className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-accent">
+        <button
+          className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-accent"
+          aria-label="Notifications"
+          title="Notifications"
+        >
           <Bell className="h-5 w-5" />
         </button>
 
-        <button className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-accent">
+        <button
+          className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-accent"
+          aria-label="Settings"
+          title="Settings"
+        >
           <Settings className="h-5 w-5" />
         </button>
 

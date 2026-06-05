@@ -22,7 +22,13 @@ import { createClient } from "@/lib/supabase/client"
 import type { InventoryItem } from "@/lib/types"
 
 const CATEGORIES = [
-  "Vegetables", "Fruits", "Dairy", "Bakery", "Meat", "Beverages", "Other",
+  "Vegetables",
+  "Fruits",
+  "Dairy",
+  "Bakery",
+  "Meat",
+  "Beverages",
+  "Other",
 ]
 
 export function InventoryRowActions({ item }: { item: InventoryItem }) {
@@ -30,7 +36,9 @@ export function InventoryRowActions({ item }: { item: InventoryItem }) {
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
   const [imageFile, setImageFile] = useState<File | null>(null)
-  const [imagePreview, setImagePreview] = useState<string | null>(item.image_url)
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    item.image_url
+  )
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -107,7 +115,10 @@ export function InventoryRowActions({ item }: { item: InventoryItem }) {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setEditOpen(true)} className="cursor-pointer">
+          <DropdownMenuItem
+            onClick={() => setEditOpen(true)}
+            className="cursor-pointer"
+          >
             <Pencil className="mr-2 h-4 w-4" />
             Edit Item
           </DropdownMenuItem>
@@ -134,7 +145,7 @@ export function InventoryRowActions({ item }: { item: InventoryItem }) {
                   <button
                     type="button"
                     onClick={clearImage}
-                    className="absolute right-2 top-2 rounded-full bg-foreground/60 p-1 text-background backdrop-blur-sm hover:bg-foreground/80"
+                    className="absolute top-2 right-2 rounded-full bg-foreground/60 p-1 text-background backdrop-blur-sm hover:bg-foreground/80"
                     aria-label="Remove image"
                   >
                     <X className="h-3.5 w-3.5" />
@@ -144,10 +155,14 @@ export function InventoryRowActions({ item }: { item: InventoryItem }) {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
+                  title="Upload product image"
+                  aria-label="Upload product image"
                   className="flex h-24 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-outline-variant bg-surface-gray transition-colors hover:bg-accent"
                 >
                   <ImagePlus className="h-6 w-6 text-muted-foreground" />
-                  <span className="text-xs text-muted-foreground">Click to upload image</span>
+                  <span className="text-xs text-muted-foreground">
+                    Click to upload image
+                  </span>
                 </button>
               )}
               <input
@@ -156,18 +171,33 @@ export function InventoryRowActions({ item }: { item: InventoryItem }) {
                 accept="image/*"
                 className="hidden"
                 onChange={handleFileChange}
+                title="Choose an image file to upload"
               />
             </div>
 
             <div className="space-y-1.5">
               <Label htmlFor={`name-${item.id}`}>Item Name</Label>
-              <Input id={`name-${item.id}`} name="name" defaultValue={item.name} required />
+              <Input
+                id={`name-${item.id}`}
+                name="name"
+                defaultValue={item.name}
+                placeholder="e.g. Roma Tomatoes"
+                title="Item name"
+                required
+              />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <Label htmlFor={`sku-${item.id}`}>SKU</Label>
-                <Input id={`sku-${item.id}`} name="sku" defaultValue={item.sku} required />
+                <Input
+                  id={`sku-${item.id}`}
+                  name="sku"
+                  defaultValue={item.sku}
+                  placeholder="e.g. SKU1234"
+                  title="Stock keeping unit"
+                  required
+                />
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor={`category-${item.id}`}>Category</Label>
@@ -178,11 +208,13 @@ export function InventoryRowActions({ item }: { item: InventoryItem }) {
                   title="Item category"
                   defaultValue={item.category}
                   required
-                  className="h-9 w-full rounded-md border border-input bg-surface-input px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  className="h-9 w-full rounded-md border border-input bg-surface-input px-3 py-1 text-sm shadow-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
                 >
                   <option value="">Select…</option>
                   {CATEGORIES.map((c) => (
-                    <option key={c} value={c}>{c}</option>
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -202,7 +234,13 @@ export function InventoryRowActions({ item }: { item: InventoryItem }) {
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor={`unit-${item.id}`}>Unit</Label>
-                <Input id={`unit-${item.id}`} name="unit" defaultValue={item.unit} />
+                <Input
+                  id={`unit-${item.id}`}
+                  name="unit"
+                  defaultValue={item.unit}
+                  placeholder="e.g. kg, pcs"
+                  title="Unit of measure"
+                />
               </div>
             </div>
 

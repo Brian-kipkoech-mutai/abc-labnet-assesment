@@ -16,7 +16,13 @@ import { addInventoryItem } from "@/lib/actions/inventory"
 import { createClient } from "@/lib/supabase/client"
 
 const CATEGORIES = [
-  "Vegetables", "Fruits", "Dairy", "Bakery", "Meat", "Beverages", "Other",
+  "Vegetables",
+  "Fruits",
+  "Dairy",
+  "Bakery",
+  "Meat",
+  "Beverages",
+  "Other",
 ]
 
 export function AddItemDialog() {
@@ -105,7 +111,10 @@ export function AddItemDialog() {
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           {/* Image upload */}
           <div className="space-y-1.5">
-            <Label>Product Image <span className="text-muted-foreground">(optional)</span></Label>
+            <Label>
+              Product Image{" "}
+              <span className="text-muted-foreground">(optional)</span>
+            </Label>
             {imagePreview ? (
               <div className="relative w-full overflow-hidden rounded-lg border border-outline-variant">
                 <img
@@ -116,7 +125,7 @@ export function AddItemDialog() {
                 <button
                   type="button"
                   onClick={clearImage}
-                  className="absolute right-2 top-2 rounded-full bg-foreground/60 p-1 text-background backdrop-blur-sm hover:bg-foreground/80"
+                  className="absolute top-2 right-2 rounded-full bg-foreground/60 p-1 text-background backdrop-blur-sm hover:bg-foreground/80"
                   aria-label="Remove image"
                 >
                   <X className="h-3.5 w-3.5" />
@@ -129,7 +138,9 @@ export function AddItemDialog() {
                 className="flex h-24 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-outline-variant bg-surface-gray transition-colors hover:bg-accent"
               >
                 <ImagePlus className="h-6 w-6 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">Click to upload image</span>
+                <span className="text-xs text-muted-foreground">
+                  Click to upload image
+                </span>
               </button>
             )}
             <input
@@ -137,13 +148,20 @@ export function AddItemDialog() {
               type="file"
               accept="image/*"
               className="hidden"
+              aria-label="Upload product image"
+              title="Upload product image"
               onChange={handleFileChange}
             />
           </div>
 
           <div className="space-y-1.5">
             <Label htmlFor="name">Item Name</Label>
-            <Input id="name" name="name" placeholder="e.g. Baby Spinach 250g" required />
+            <Input
+              id="name"
+              name="name"
+              placeholder="e.g. Baby Spinach 250g"
+              required
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -159,11 +177,13 @@ export function AddItemDialog() {
                 aria-label="Item category"
                 title="Item category"
                 required
-                className="h-9 w-full rounded-md border border-input bg-surface-input px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                className="h-9 w-full rounded-md border border-input bg-surface-input px-3 py-1 text-sm shadow-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
               >
                 <option value="">Select…</option>
                 {CATEGORIES.map((c) => (
-                  <option key={c} value={c}>{c}</option>
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
                 ))}
               </select>
             </div>
@@ -183,7 +203,12 @@ export function AddItemDialog() {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="unit">Unit</Label>
-              <Input id="unit" name="unit" placeholder="Units" defaultValue="Units" />
+              <Input
+                id="unit"
+                name="unit"
+                placeholder="Units"
+                defaultValue="Units"
+              />
             </div>
           </div>
 
