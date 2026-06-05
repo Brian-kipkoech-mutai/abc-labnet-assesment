@@ -1,6 +1,7 @@
 "use client"
 
 import { Bell, Settings, Search } from "lucide-react"
+import { ModeToggle } from "@/components/ui/mode-toggle"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Input } from "@/components/ui/input"
 import {
@@ -55,6 +56,8 @@ export function AppHeader({ userEmail }: AppHeaderProps) {
         <button className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-accent">
           <Settings className="h-5 w-5" />
         </button>
+
+        <ModeToggle />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
