@@ -2,6 +2,45 @@
 -- ABC LAB NET – run this in Supabase SQL Editor
 -- ============================================================
 
+-- Helper function: add quantity to inventory when a verified arrival is submitted
+create or replace function public.increment_stock(p_name text, p_qty numeric)
+returns void language sql security definer as $$
+  update public.inventory_items
+  set stock_quantity = stock_quantity + p_qty::integer,
+      updated_at = now()
+  where name = p_name;
+$$;
+
+create table if not exists public.stock_arrivals (
+  id           uuid primary key default gen_random_uuid(),
+  product_name text not null,
+  category     text not null,
+  quantity     numeric(10,2) not null,
+  unit         text not null default 'kg',
+  arrival_date date not null,
+  supplier     text not null,
+  notes        text,
+  status       text not null default 'PENDING',
+  created_at   timestamptz not null default now(),
+  constraint stock_arrivals_status_check check (status in ('PENDING','VERIFIED','QC_REVIEW','DRAFT'))
+);
+
+alter table public.stock_arrivals enable row level security;
+
+drop policy if exists "auth_read_stock_arrivals"   on public.stock_arrivals;
+drop policy if exists "auth_insert_stock_arrivals" on public.stock_arrivals;
+drop policy if exists "auth_update_stock_arrivals" on public.stock_arrivals;
+
+create policy "auth_read_stock_arrivals"   on public.stock_arrivals for select    to authenticated using (true);
+create policy "auth_insert_stock_arrivals" on public.stock_arrivals for insert    to authenticated with check (true);
+create policy "auth_update_stock_arrivals" on public.stock_arrivals for update    to authenticated using (true);
+
+insert into public.stock_arrivals (product_name, category, quantity, unit, arrival_date, supplier, status, created_at) values
+  ('Organic Spinach', 'Vegetables', 120, 'kg',     current_date, 'Green Farms Ltd',      'VERIFIED',  now() - interval '2 hours'),
+  ('Roma Tomatoes',   'Vegetables',  45, 'box',    current_date, 'Valley Fresh Co',      'VERIFIED',  now() - interval '5 hours'),
+  ('Granny Smith',    'Fruits',      12, 'pallet', current_date, 'Orchard Direct',       'QC_REVIEW', now() - interval '8 hours')
+on conflict do nothing;
+
 create table if not exists public.inventory_items (
   id             uuid primary key default gen_random_uuid(),
   name           text not null,

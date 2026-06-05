@@ -80,7 +80,7 @@ export function AppSidebar() {
 
         <div className="mt-6 px-2">
           <Link
-            href="/data-entry"
+            href="/inventory"
             className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-xs font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
           >
             <Plus className="h-4 w-4" />
